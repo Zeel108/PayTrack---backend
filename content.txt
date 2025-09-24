@@ -1,4 +1,12 @@
 +---------------------------------------------------------------------------+
+|                some install command or commant                            |
++---------------------------------------------------------------------------+
+
+to check our backend is runnig or not we can hit url and at end /docs to open 
+postman like ui to test are url for post and get method
+
+
++---------------------------------------------------------------------------+
 |                   To make and run fast api app                            |
 +---------------------------------------------------------------------------+
 
@@ -10,7 +18,9 @@ step-3 :- now make one env
             syntax
 
 step-4 :- now activate that env and install all dependency or extensions
-            active env open powershell write cmd to open comand prompt in vs code that reach to yourfolder as path
+            active env open powershell write cmd to open comand prompt in 
+            vs code that reach to yourfolder as path
+            
             like  DELL>Project>backend_project_name>
             than write .env_name/Scripts/Activate
             after active install
@@ -26,3 +36,83 @@ step-5 :- deactive env
                 to run    .py  method name ( app = FastAPI(); )
                uvicorn  file name 
 
+
++---------------------------------------------------------------------------+
+|          To create cluster and creating one user into database            |
++---------------------------------------------------------------------------+
+
+step-1 :- create one cluster in mongodb cloud
+
+step-2 :- click on connect option 
+          than select language like python if you are using
+          than it give you one query to install mongo db copy it and install it in env
+          than it give you Mongourl than click on complete code than copy tha code in config.py file
+     
+step-3 :- make config.py file 
+          write coped code and remove unwanted code
+          like 
+               from pymongo.mongo_client import MongoClient    //import mongoclient
+               from pymongo.server_api import ServerApi    
+
+               uri = "mongodb+srv://zeelmavani113_db_user:Po0KTJ49jzQB2C8s@payroll.tohit33.mongodb.net/?retryWrites=true&w=majority&appName=Payroll"
+                    //this is uri  |  user name         | user password  |  cluster name|   
+               client = MongoClient(uri, server_api=ServerApi('1'))
+
+               db = client.payroll     
+                    | database name   this is dababase name which will create in mongodb cluster you provided at above
+               collection = db["user_data"]
+                    this will create a collection /table in database name user_data       
+
+step-4 :- make models.py file for model
+          were we check the data types with column name and type
+
+step-5 :- write schemas in schemas.py like 
+          creation of user
+          listing or fetching user data 
+          fetching all users etc.
+
+step-6 :- in main.py write url and in it pass model and schemas or instruction you want to give and than return you want to return
+
+
++---------------------------------------------------------------------------+
+|          Data flow here only from python                                  |
++---------------------------------------------------------------------------+
+
+
+
+
+
++---------------------------------------------------------------------------+
+|       Data flow from react to fastapi to mongodb to fastapi to react      |
++---------------------------------------------------------------------------+
+
+     when data is come from react as json response it come to url 
+          like @router.post("/users")
+     than it call model which we pass in def
+          async def create_user(new_user : users): 
+                   |fun name   | obj name | model class name
+
+     than in model it check wether data matches or note if yes than procced else 
+     written error to react were we catch error using catch 
+          first_name: str
+          last_name: str
+          check column name | and type with json response
+          in react form if i am writeing value=firstName //camel case
+          than i can write in two ways a model 
+          1.     firstname: str = Field(..., alias="firstName")  # alias = what React sends
+          2.     firstName: str   # camelCase is fine
+
+     than after validation from model it enters to def of main.py and it call schemas that 
+     we want to call and pass model data using object like user
+          we can save user two ways         | new obj name | schemas file name | schemas name  |obj name that we use 
+                                                                                                to pass model data in def  
+          1. using schemas reference         user_id       =   schemas         . save_user     (new_user) 
+          2. direct                          response = collection                   .insert_one(dict(new_user));
+                                                       | collection name that we 
+                                                         set in config file for table
+               also in schemas we are writing a same insert_one code but if we have long save code and we
+               want to write it to schemas to make main.py look simple and smaller
+
+     in schemas it save user in collection
+     and return msg
+     and than it call react or send msg from return 
