@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+from fastapi import FastAPI,APIRouter
 
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -12,10 +12,16 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-@app.get("/api/hello")
-def read_root():
-    return {"message": "Hello how are you"}
+api_router = APIRouter(prefix="/api")
 
-@app.get("/api/first")
-def read():
-    return {"hello": "Hello world"}
+users = [
+    {"id": 1, "name": "Alice", "email": "alice@example.com"},
+    {"id": 2, "name": "Bob", "email": "bob@example.com"},
+    {"id": 3, "name": "Charlie", "email": "charlie@example.com"},
+]
+
+@api_router.get("/users")
+def get_users():
+    return users
+
+app.include_router(api_router)
