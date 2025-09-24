@@ -1,0 +1,28 @@
++---------------------------------------------------------------------------+
+|                   To make and run fast api app                            |
++---------------------------------------------------------------------------+
+
+step-1 :- make one folder name backend_project_name
+
+step-2 :- now open it in vs code
+
+step-3 :- now make one env 
+            syntax
+
+step-4 :- now activate that env and install all dependency or extensions
+            active env open powershell write cmd to open comand prompt in vs code that reach to yourfolder as path
+            like  DELL>Project>backend_project_name>
+            than write .env_name/Scripts/Activate
+            after active install
+            --> pip install fastapi pymongo uvicorn
+            uvicorn to host fastapi
+
+step-5 :- deactive env
+            make one main.py in folder outside of env
+            than in main.py write code and send message
+            to run in env activate terminal
+            ----> uvicorn main:app --reload
+                     /     |    \      |----> this is to reload app after every save 
+                to run    .py  method name ( app = FastAPI(); )
+               uvicorn  file name 
+
