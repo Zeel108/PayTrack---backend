@@ -1,0 +1,13 @@
+from pydantic import BaseModel, EmailStr
+
+class users(BaseModel):
+    firstName: str
+    lastName: str
+    email: EmailStr
+    phoneNumber: int
+    departmentId: int
+    positionId: int
+    officeId: int
+    salary: int
+    age: int
+    password: str
