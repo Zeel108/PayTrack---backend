@@ -1,6 +1,6 @@
 from fastapi import FastAPI, APIRouter, HTTPException;
 from Config import user_collection;
-from Database.models.usermodel import users,userverify;
+from Database.models.usermodel import users,userverify, userOut;
 from Database.schemas.userschemas import all_users,single_user;
 from fastapi.middleware.cors import CORSMiddleware;
 from Database.models.auth_util import hash_password,verify_password;
@@ -48,9 +48,25 @@ async def login(user_check: userverify):
     if not verify_password(user_check.password, db_user["password"]):
         # Specific error for wrong password
         raise HTTPException(status_code=401, detail="Incorrect password")
+    db_user["_id"] = str(db_user["_id"])
+
+    # Temp object to store user
+    temp_user = userOut(
+        id=db_user["_id"],
+        firstName=db_user.get("firstName", ""),
+        lastName=db_user.get("lastName", ""),
+        email=db_user["email"],
+        age=db_user.get("age"),
+        phoneNumber=db_user.get("phoneNumber"),
+        departmentId=db_user.get("departmentId"),
+        positionId=db_user.get("positionId"),
+        officeId=db_user.get("officeId"),
+        salary=db_user.get("salary"),
+        role=db_user.get("role", "USER")
+    )
 
     # Login successful
-    return {"message": "Login successful", "user": db_user["email"], "role": db_user.get("role", "USER")}
+    return {"message": "Login successful", "user_data": temp_user, "role": db_user.get("role", "USER")}
 
 
 app.include_router(router)
