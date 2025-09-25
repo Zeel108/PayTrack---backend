@@ -11,3 +11,8 @@ class users(BaseModel):
     salary: int
     age: int
     password: str
+    role: str
+
+class userverify(BaseModel):
+    email: EmailStr
+    password: str

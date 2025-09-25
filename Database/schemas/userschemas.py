@@ -1,4 +1,3 @@
-from Config import user_collection,get_next_id;
 from pydantic import BaseModel;
 from ..models.usermodel import users;
 
